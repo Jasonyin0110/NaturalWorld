@@ -8,9 +8,13 @@ body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 #gameContainer {
@@ -724,25 +728,67 @@ button:hover {
 
 /* Responsive design */
 @media (max-width: 768px) {
+    body {
+        padding: 0.2rem;
+    }
+    
     #gameContainer {
-        margin: 1rem;
-        min-height: 500px;
+        margin: 0;
+        min-height: calc(100vh - 0.4rem);
+        min-height: calc(100dvh - 0.4rem);
+        max-width: 100%;
+        width: 100%;
     }
     
     #gameCanvas {
         width: 100%;
-        max-width: 600px;
+        max-width: 100%;
         height: auto;
     }
     
+    .start-content {
+        padding: 1rem 0.8rem;
+    }
+    
     .start-content h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+        line-height: 1.2;
+    }
+    
+    .start-content p {
+        font-size: 0.95rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .character-setup {
+        padding: 1.2rem 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    #characterName {
+        width: 100%;
+        max-width: 200px;
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+    
+    button {
+        padding: 0.7rem 1.3rem;
+        font-size: 0.9rem;
+        margin: 0.25rem;
+    }
+    
+    .audio-controls, .how-to-play-section {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
     }
     
     .ui-top {
         flex-direction: column;
         gap: 0.5rem;
         text-align: center;
+        padding: 0.8rem;
     }
     
     #gameMap {
@@ -752,7 +798,78 @@ button:hover {
     }
     
     .map-location {
-        padding: 1rem;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Mobile tutorial adjustments */
+    .tutorial-content {
+        max-width: 95%;
+        padding: 1.2rem;
+        margin: 0.5rem;
+    }
+    
+    .tutorial-content h3 {
+        font-size: 1.4rem;
+    }
+    
+    .controls-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+    }
+    
+    .key {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        min-width: 40px;
+    }
+    
+    .space-key {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Hero hint mobile */
+    .hero-hint {
+        top: 120px;
+        max-width: 90%;
+    }
+    
+    .speech-bubble {
+        padding: 10px 14px;
+        max-width: 250px;
+    }
+    
+    .speech-bubble p {
+        font-size: 12px;
+    }
+    
+    /* Instructions mobile */
+    .instructions-content {
+        max-width: 95%;
+        padding: 1.2rem;
+        margin: 0.5rem;
+    }
+    
+    .instruction-section {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .instruction-section h3 {
         font-size: 1rem;
+    }
+    
+    .instruction-section p {
+        font-size: 0.85rem;
+    }
+    
+    /* Game controls mobile */
+    #gameControls {
+        padding: 0.5rem;
+    }
+    
+    .controls-info p {
+        font-size: 0.8rem;
     }
 } 
