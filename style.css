@@ -1,0 +1,758 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameContainer {
+    width: 100%;
+    max-width: 900px;
+    min-height: 700px;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Start Screen */
+#startScreen {
+    background: linear-gradient(45deg, #43cea2 0%, #185a9d 100%);
+    color: white;
+    text-align: center;
+}
+
+.start-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.start-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.by-author {
+    font-size: 1.5rem;
+    color: #f39c12;
+    font-weight: normal;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.character-setup {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.audio-controls {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#toggleSound {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    font-size: 1rem;
+    padding: 0.6rem 1.5rem;
+}
+
+#toggleGameSound {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+}
+
+.how-to-play-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#howToPlayBtn {
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+    font-size: 1rem;
+    padding: 0.6rem 1.5rem;
+}
+
+.character-setup label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+#characterName {
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    width: 200px;
+    text-align: center;
+}
+
+button {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0.5rem;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Game Screen */
+#gameScreen {
+    background: #2c3e50;
+    flex-direction: column;
+}
+
+#gameUI {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 1rem;
+}
+
+.ui-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#playerName {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.hearts {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.heart {
+    font-size: 1.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.heart.lost {
+    opacity: 0.3;
+}
+
+#currentLocation {
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+}
+
+#gameArea {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#gameCanvas {
+    border: 2px solid #34495e;
+    border-radius: 10px;
+    background: #ecf0f1;
+}
+
+#gameControls {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.controls-info p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Game Over Screen */
+#gameOverScreen {
+    background: linear-gradient(45deg, #c0392b 0%, #8e44ad 100%);
+    color: white;
+    text-align: center;
+}
+
+.game-over-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.game-over-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* How to Play Screen */
+#howToPlayScreen {
+    background: linear-gradient(45deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    text-align: left;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.instructions-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.instructions-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.instructions-text {
+    margin-bottom: 2rem;
+}
+
+.instruction-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid #3498db;
+}
+
+.instruction-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    color: #3498db;
+}
+
+.instruction-section p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.instruction-section p:last-child {
+    margin-bottom: 0;
+}
+
+.fullscreen-tip {
+    border-left-color: #f39c12;
+    background: rgba(243, 156, 18, 0.1);
+}
+
+.fullscreen-tip h3 {
+    color: #f39c12;
+}
+
+.fullscreen-tip p strong {
+    color: #f39c12;
+}
+
+#closeInstructions {
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    display: block;
+    margin: 0 auto;
+}
+
+/* In-Game Tutorial Overlay */
+.tutorial-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.tutorial-content {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid #3498db;
+}
+
+.tutorial-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tutorial-controls {
+    margin-bottom: 1.5rem;
+}
+
+.control-section {
+    margin-bottom: 1.5rem;
+}
+
+.control-section h4 {
+    font-size: 1.2rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.control-key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-key.big {
+    grid-column: span 2;
+    margin: 1rem 0;
+}
+
+.key {
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid #3498db;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    min-width: 60px;
+}
+
+.space-key {
+    padding: 0.8rem 2rem;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    border-color: #e74c3c;
+    font-size: 1.1rem;
+}
+
+.control-key span {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+}
+
+.tutorial-tip {
+    background: rgba(243, 156, 18, 0.2);
+    border: 1px solid #f39c12;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.tutorial-tip p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.tutorial-tip strong {
+    color: #f39c12;
+}
+
+#closeTutorial {
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#closeTutorial:hover {
+    transform: translateY(-2px);
+}
+
+/* Small Red Control Box */
+.control-box {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+    border: 2px solid #e74c3c;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.control-box:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.6);
+}
+
+.control-box span {
+    font-size: 1.5rem;
+}
+
+/* Tutorial Header */
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tutorial-header h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.exit-btn {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.exit-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(145deg, #c0392b, #a93226);
+}
+
+/* Hero Control Hint */
+.hero-hint {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+}
+
+.speech-bubble {
+    position: relative;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    color: #2c3e50;
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 2px solid #e74c3c;
+    max-width: 250px;
+    animation: bubble-bounce 3s infinite;
+}
+
+@keyframes bubble-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.speech-bubble p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.bubble-tail {
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 12px solid #ffffff;
+}
+
+.bubble-tail::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: -12px;
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 14px solid #e74c3c;
+}
+
+/* Victory Screen */
+#victoryScreen {
+    background: linear-gradient(45deg, #27ae60 0%, #f39c12 100%);
+    color: white;
+    text-align: center;
+}
+
+.victory-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.victory-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Location-specific backgrounds for canvas */
+.location-home {
+    background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 50%, #90EE90 100%);
+}
+
+.location-park {
+    background: linear-gradient(to bottom, #87CEEB 0%, #90EE90 30%, #228B22 100%);
+}
+
+.location-forest {
+    background: linear-gradient(to bottom, #2F4F2F 0%, #006400 50%, #228B22 100%);
+}
+
+.location-lake {
+    background: linear-gradient(to bottom, #87CEEB 0%, #4682B4 50%, #1E90FF 100%);
+}
+
+.location-theater {
+    background: linear-gradient(to bottom, #2C2C2C 0%, #800020 50%, #4B0000 100%);
+}
+
+.location-garden {
+    background: linear-gradient(to bottom, #87CEEB 0%, #FFB6C1 30%, #90EE90 100%);
+}
+
+.location-end {
+    background: linear-gradient(45deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%);
+    animation: rainbow 3s ease-in-out infinite alternate;
+}
+
+.location-friend-house {
+    background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 50%, #90EE90 100%);
+}
+
+.location-player-interior {
+    background: linear-gradient(to bottom, #F5DEB3 0%, #DEB887 50%, #D2B48C 100%);
+}
+
+.location-friend-interior {
+    background: linear-gradient(to bottom, #FFE4E1 0%, #FFC0CB 50%, #FFB6C1 100%);
+}
+
+@keyframes rainbow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* Map Screen */
+#mapScreen {
+    background: linear-gradient(45deg, #2C3E50 0%, #34495E 100%);
+    color: white;
+    text-align: center;
+}
+
+.map-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#gameMap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    padding: 2rem;
+}
+
+.map-location {
+    background: linear-gradient(45deg, #3498DB, #2980B9);
+    border: 3px solid #2C3E50;
+    border-radius: 15px;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.map-location:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(45deg, #5DADE2, #3498DB);
+}
+
+.map-location.current {
+    background: linear-gradient(45deg, #E74C3C, #C0392B);
+    border-color: #FFD700;
+    animation: pulse 2s infinite;
+}
+
+.map-location.visited {
+    background: linear-gradient(45deg, #27AE60, #229954);
+}
+
+.map-location.locked {
+    background: linear-gradient(45deg, #95A5A6, #7F8C8D);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#closeMap {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, #E67E22, #D35400);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#closeMap:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#openMap {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background: linear-gradient(45deg, #9B59B6, #8E44AD);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: all 0.3s ease;
+}
+
+#openMap:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Interactive Elements Styles */
+.interactive-element {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.interactive-element:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #gameContainer {
+        margin: 1rem;
+        min-height: 500px;
+    }
+    
+    #gameCanvas {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+    }
+    
+    .start-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .ui-top {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    #gameMap {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .map-location {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+} 

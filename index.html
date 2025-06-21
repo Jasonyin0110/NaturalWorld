@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaturalWorld - Adventure Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Audio Elements -->
+    <audio id="backgroundMusic" loop>
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoAAAD//////////wAA" type="audio/wav">
+    </audio>
+    <audio id="scaryChaseSound" loop>
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoAAAD//////////wAA" type="audio/wav">
+    </audio>
+    <audio id="interactionSound">
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoAAAD//////////wAA" type="audio/wav">
+    </audio>
+    <audio id="locationChangeSound">
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoAAAD//////////wAA" type="audio/wav">
+    </audio>
+    <audio id="damageSound">
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoAAAD//////////wAA" type="audio/wav">
+    </audio>
+
+    <div id="gameContainer">
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <div class="start-content">
+                <h1>🌍 NaturalWorld <span class="by-author">by Joey</span></h1>
+                <p>Welcome to your adventure! Explore different worlds and reach the end of the map.</p>
+                <div class="character-setup">
+                    <label for="characterName">Enter your character's name:</label>
+                    <input type="text" id="characterName" maxlength="15" placeholder="Hero">
+                    <button id="startGame">Start Adventure</button>
+                </div>
+                <div class="audio-controls">
+                    <button id="toggleSound">🔊 Sound: ON</button>
+                </div>
+                <div class="how-to-play-section">
+                    <button id="howToPlayBtn">❓ How to Play</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Play Screen -->
+        <div id="howToPlayScreen" class="screen hidden">
+            <div class="instructions-content">
+                <h2>❓ How to Play NaturalWorld</h2>
+                <div class="instructions-text">
+                    <div class="instruction-section">
+                        <h3>🎯 Objective</h3>
+                        <p>Navigate through 8 different locations and reach the <strong>End of the Earth</strong> to win!</p>
+                    </div>
+                    
+                    <div class="instruction-section">
+                        <h3>🎮 Controls</h3>
+                        <p><strong>Movement:</strong> Use WASD keys or Arrow Keys to move your character</p>
+                        <p><strong>Interact:</strong> Press SPACE or CLICK on interactive elements</p>
+                        <p><strong>Map:</strong> Press M key or click the Map button to fast travel</p>
+                    </div>
+                    
+                    <div class="instruction-section">
+                        <h3>🌍 Locations</h3>
+                        <p>Explore: Home 🏠 → Park 🌳 → Friend's House 🏡 → Theater 🎬 → Garden 🌺 → Forest 🌲 → Lake 🌊 → End of Earth 🏆</p>
+                        <p><strong>Interactive Elements:</strong> Click on doors, pools, movie screens, water, and clouds!</p>
+                    </div>
+                    
+                    <div class="instruction-section">
+                        <h3>👹 Monsters & Combat</h3>
+                        <p><strong>Hearts:</strong> You have 3 hearts. Avoid monsters or you'll lose health!</p>
+                        <p><strong>Checkpoints:</strong> Safe zones at Friend's House and Crystal Lake restore your position</p>
+                        <p><strong>Invincibility:</strong> After taking damage, you're briefly invincible (blinking effect)</p>
+                    </div>
+                    
+                    <div class="instruction-section">
+                        <h3>🔊 Audio</h3>
+                        <p><strong>Ambient Sounds:</strong> Each location has unique background music</p>
+                        <p><strong>Chase Music:</strong> Scary music plays when monsters are chasing you!</p>
+                        <p><strong>Sound Effects:</strong> Interact with elements to hear different sounds</p>
+                    </div>
+                    
+                    <div class="instruction-section fullscreen-tip">
+                        <h3>💡 Pro Tip</h3>
+                        <p><strong>🖥️ For the best experience, use your browser in FULL SCREEN mode!</strong></p>
+                        <p>Press F11 (PC) or Cmd+Shift+F (Mac) to enter full screen mode.</p>
+                    </div>
+                </div>
+                <button id="closeInstructions">🚀 Start Playing!</button>
+            </div>
+        </div>
+
+        <!-- Map Screen -->
+        <div id="mapScreen" class="screen hidden">
+            <div class="map-content">
+                <h2>🗺️ NaturalWorld Map</h2>
+                <div id="gameMap">
+                    <div class="map-location" id="mapHome" data-location="0">🏠 Home</div>
+                    <div class="map-location" id="mapPark" data-location="1">🌳 Park</div>
+                    <div class="map-location" id="mapFriend" data-location="2">🏡 Friend's House</div>
+                    <div class="map-location" id="mapTheater" data-location="3">🎬 Theater</div>
+                    <div class="map-location" id="mapGarden" data-location="4">🌺 Garden</div>
+                    <div class="map-location" id="mapForest" data-location="5">🌲 Forest</div>
+                    <div class="map-location" id="mapLake" data-location="6">🌊 Lake</div>
+                    <div class="map-location" id="mapEnd" data-location="7">🏆 End of Earth</div>
+                </div>
+                <button id="closeMap">Return to Game</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <div id="gameUI">
+                <div class="ui-top">
+                    <div class="player-info">
+                        <span id="playerName">Hero</span>
+                        <div class="hearts">
+                            <span class="heart">❤️</span>
+                            <span class="heart">❤️</span>
+                            <span class="heart">❤️</span>
+                        </div>
+                    </div>
+                    <div class="location-info">
+                        <span id="currentLocation">Home</span>
+                        <button id="openMap">🗺️ Map</button>
+                        <button id="toggleGameSound">🔊</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gameArea">
+                <canvas id="gameCanvas" width="800" height="600"></canvas>
+                
+                <!-- Small Red Control Box -->
+                <div id="controlBox" class="control-box">
+                    <span>🎮</span>
+                </div>
+                
+                <!-- Hero Control Hint Bubble -->
+                <div id="heroHint" class="hero-hint hidden">
+                    <div class="speech-bubble">
+                        <p>Use arrow buttons on your keyboard to control the red hero!</p>
+                        <div class="bubble-tail"></div>
+                    </div>
+                </div>
+                
+                <!-- In-Game Tutorial Overlay -->
+                <div id="tutorialOverlay" class="tutorial-overlay hidden">
+                    <div class="tutorial-content">
+                        <div class="tutorial-header">
+                            <h3>🎮 Game Controls</h3>
+                            <button id="exitTutorial" class="exit-btn">✖️ Exit</button>
+                        </div>
+                        <div class="tutorial-controls">
+                            <div class="control-section">
+                                <h4>Movement Controls:</h4>
+                                <div class="controls-grid">
+                                    <div class="control-key">
+                                        <div class="key">W ↑</div>
+                                        <span>Press UP - Move Up</span>
+                                    </div>
+                                    <div class="control-key">
+                                        <div class="key">S ↓</div>
+                                        <span>Press DOWN - Move Down</span>
+                                    </div>
+                                    <div class="control-key">
+                                        <div class="key">A ←</div>
+                                        <span>Press LEFT - Move Left</span>
+                                    </div>
+                                    <div class="control-key">
+                                        <div class="key">D →</div>
+                                        <span>Press RIGHT - Move Right</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="control-section">
+                                <h4>Interaction:</h4>
+                                <div class="control-key big">
+                                    <div class="key space-key">SPACE</div>
+                                    <span>Interact / Go to Next Location</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tutorial-tip">
+                                <p>💡 <strong>Tip:</strong> Move to the blue "NEXT" button on the right and press SPACE to advance to the next location!</p>
+                            </div>
+                        </div>
+                        
+                        <button id="closeTutorial">✅ Got it!</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gameControls">
+                <div class="controls-info">
+                    <p>Use WASD or Arrow Keys to move • Space to interact</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="screen hidden">
+            <div class="game-over-content">
+                <h2>Game Over</h2>
+                <p>Don't give up! Try again from your last checkpoint.</p>
+                <button id="restartGame">Try Again</button>
+                <button id="backToStart">Back to Start</button>
+            </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div id="victoryScreen" class="screen hidden">
+            <div class="victory-content">
+                <h2>🎉 Congratulations!</h2>
+                <p>You've reached the end of the Earth and completed your adventure!</p>
+                <button id="playAgain">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
